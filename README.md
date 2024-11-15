@@ -11,4 +11,3 @@ Este será el Repositorio de BackEnd para el grupo G21 de CodiGo. Las semanas es
 8. Semana08 <a href="https://www.google.com.pe">Click aquí</a>
 9. Semana09 <a href="https://www.google.com.pe">Click aquí</a>
 10. Semana10 <a href="https://www.google.com.pe">Click aquí</a>
-11. Semana11 <a href="https://www.google.com.pe">Click aquí</a>
