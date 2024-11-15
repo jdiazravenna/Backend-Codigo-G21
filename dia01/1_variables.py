@@ -4,7 +4,7 @@
 nombre = 'Juan'
 direccion = "Los olivos - 'Lima"
 
-# Textos muy largos
+# Textos muy largos ''' o """
 
 enunciado = '''Hola
 estamos haciendo pruebas
@@ -21,3 +21,5 @@ Casado = False
 # Float
 
 estatura = 1.66
+
+print(nombre)
