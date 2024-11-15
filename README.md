@@ -1,4 +1,4 @@
-# REPOSITORIO DE BACKEND PARA EL GRUPO G21
+# REPOSITORIO DE BACKEND PARA EL GRUPO G21 CodiGo
 
 Este será el Repositorio de BackEnd para el grupo G21 de CodiGo. Las semanas estarán distribuidas en ramas, es decir, la semana 01 será la rama <a href="https://www.google.com.pe">Semana01</a>
 1. Semana01 <a href="https://www.google.com.pe">Click aquí</a>
