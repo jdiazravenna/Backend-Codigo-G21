@@ -61,4 +61,5 @@ print(numero100)
 #Boolean
 
 libre = True
+#En python para utilizar el operador '!', se debe usar el NOT
 print(not libre)
