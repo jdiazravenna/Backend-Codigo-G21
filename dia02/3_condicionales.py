@@ -35,13 +35,13 @@
 def resultado_final(alumno, nota):
     mensaje = ''
     if nota <= 20 and nota > 17:
-        mensaje = 'El Alumno  {alumno}  Está aprobado y tiene felicitaciones publicas'
+        mensaje = f'El Alumno  {alumno}  Está aprobado y tiene felicitaciones publicas'
     elif nota > 14 and nota <= 17:
-        mensaje = 'El alumno  {alumno} esta aprobado y exonerado de la exposicion final'
+        mensaje = f'El alumno  {alumno} esta aprobado y exonerado de la exposicion final'
     elif nota > 10 and nota < 15:
-        mensaje = 'El alumno {alumno} Esta Aprobado'  
+        mensaje = f'El alumno {alumno} Esta Aprobado'  
     else:
-        mensaje = 'El alumno {alumno}  Esta Desaprobado'
+        mensaje = f'El alumno {alumno}  Esta Desaprobado'
     return mensaje
     
 resultado = resultado_final('juan', 18)
