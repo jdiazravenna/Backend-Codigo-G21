@@ -85,7 +85,7 @@ persona = {
     'nombre' : 'Juan',
     'apellido' : 'Díaz',
     'email' : 'jjdiazsoluciones@gmail.com',
-    'hobbies' : ['comer, programar', 'futbol'],
+    'hobbies' : ['comer', 'programar', 'futbol'],
     'dirección' : {
         'calle' : 'jose Santos atahualpa',
         'numero' : 862,
@@ -94,3 +94,55 @@ persona = {
     'viudo' : False,
     'familiares' : ('joao diaz', 'carlos diaz', 'william diaz')
 }
+print(persona['nombre'])
+
+# Quiero ver los hobbies de la persona
+print(persona['hobbies'])
+# quiero ver cuandos hobbies tiene la persona (numeros)
+print(len(persona['hobbies']))
+# quiero ver en que calle vive la persona
+print(persona['dirección'])
+# quiero saber si es viudo o no
+print(persona.get('viudo'))
+# quiero saaber si maria washington es familiar o no
+print('Washington' in persona['familiares'])
+
+curso = {
+    'nombre': 'Backend',
+    'duracion': '10 semanas',
+    'fecha_inicio': '2024-11-11',
+    'fecha_fin': '2025-01-30',
+    'topics': ['Python', 'Express', 'Django', 'Flask'],
+    'semanas': [
+        {
+            'nombre': 'semana 01',
+            'descripcion': 'intro a python'
+        },
+        {
+            'nombre': 'semana 02',
+            'descripcion': 'base de datos'
+        }
+    ],
+    'habilidades': ('logica de programacion', 'manejo de eventos', 'despliegue en servidores'),
+    'finalizado': False,
+    'profesores': {
+        'Arnold Gallegos', 'Eduardo de Rivero'
+    },
+    'costo': 550.76,
+    'descanso': 'a veces'
+}
+
+# nombre del curso y su duracion
+print(curso['nombre'], curso['duracion'])
+# cuantos topics tiene el curso
+print(len(curso['topics']))
+# muestrame los 2 primeros topics
+print(curso['topics'][0:2])
+# cuantas semanas tiene en el
+print(len(curso['semanas']))
+# descripcion de la semana 01
+print(curso['semanas'][0]['descripcion'])
+# 'manejo de eventos' es parde de las habilidades?
+print('Manejo de habilidades' in curso['habilidades'])
+# enseñara el profesor "Juan martinez"?
+print('Juan Martinez' in curso['profesores'])
