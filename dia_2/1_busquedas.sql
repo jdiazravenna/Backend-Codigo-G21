@@ -8,6 +8,14 @@ select * from alumnos where nombre ilike '_a%';
 --> Mostrar todos los alumnos cuyo nombre tengan en la cuarta posicion la letra i y q terminen con la letra r
 select * from alumnos where nombre ilike '___i%r';
 
---> ordenar los alumnos de manera ascendente o descendente
+--> ordenar los alumnos de manera ascendente ASC o descendente DESC
 select * from alumnos order by nombre asc;
 select * from alumnos order by nombre desc;
+
+--> Actualizacion
+
+update alumnos set nombre = 'Juanita', apellidos = 'Perez' where id = 1;
+
+--> Eliminacion
+
+delete from alumnos where id = 1;
