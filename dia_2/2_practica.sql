@@ -10,7 +10,7 @@ CREATE DATABASE finanzas;
 -- fecha_creacion timestamp
 
 -- ENUMERABLE: sirve para indicar un cierto numero de valores permitidos que pueden almacenarse en esta columna
-CREATE TYPE status_enum AS ENUM ('BUEN_CLIENTE', 'CLIENTE_RIESGOSO', 'CLIENTE PELIGROSO');
+CREATE TYPE status_enum AS ENUM ('BUEN_CLIENTE', 'CLIENTE_RIESGOSO', 'CLIENTE_PELIGROSO');
 
 CREATE TABLE clientes(
     id SERIAL NOT NULL PRIMARY KEY,
@@ -32,7 +32,7 @@ INSERT INTO clientes (nombre, correo, status, activo) VALUES
 ('Rodrigo Juarez Quispe', 'rjuarez@gmail.com', 'BUEN_CLIENTE', true),
 ('Mariana Sanchez Gil', 'msanchez@hotmail.com', 'CLIENTE_RIESGOSO', true),
 ('Juliana Taco Martinez', 'jtaco@gmail.com', 'BUEN_CLIENTE', true),
-('Gabriel Gonza Perez', 'ggonza@yahoo.es', 'CLIENTE PELIGROSO', false);
+('Gabriel Gonza Perez', 'ggonza@yahoo.es', 'CLIENTE_PELIGROSO', false);
 
 -- Mostrar todos los clientes que sea BUEN_CLIENTE
 SELECT * FROM clientes WHERE status = 'BUEN_CLIENTE';
