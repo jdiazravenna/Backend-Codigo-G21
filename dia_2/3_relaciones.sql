@@ -45,7 +45,6 @@ SELECT avg(mantenimiento), tipo_moneda FROM cuentas GROUP BY tipo_moneda;
 
 -- Dame la cuenta que paga mas mantenimiento
 -- Usar la funcion max
-SELECT * FROM cuentas WHERE mantenimiento = (SELECT MAX(mantenimiento) FROM cuentas);
 
 -- Dame la cuenta que paga menos mantenimiento
 -- Usar la funcion min
