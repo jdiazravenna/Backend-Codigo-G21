@@ -23,7 +23,7 @@ def incio():
     return 'Bienvenido a mi aplicacion de Flask!'
 # Mediante el uso de decoradores, podemos indicar la ruta y cual sera su comportamiento
 # Un decorador sirve para pdoer reusar un metodo de una clase, pero sin la necesidad de editarlo
-# como tal, solamente se modificae l funcionamiento para, en este caso, la ruta configurada
+# como tal, solamente se modificar el funcionamiento para, en este caso, la ruta configurada
 # La funcionalidad de nuestro servidor, debe ir antes del metodo .run
 
 @app.route('/inicio', methods=['POST'])
@@ -48,15 +48,15 @@ def gestionar_usuario(id):
     # Para poder manejar la informacion de la peticion se usa el metodo request de Flask
     if request.method == 'POST':
         return {
-            'message': 'La creación del usuario, fué exitosa'
+            'message': f'La creación del usuario {id}, fué exitosa'
         }
     elif request.method == 'PUT':
         return {
-            'message': 'Usuario actualizado correctamente'
+            'message': f'Usuario {id} actualizado correctamente'
         }
     elif request.method == 'DELETE':
         return {
-            'message': 'El usuario fué eliminado correctamente'
+            'message': f'El usuario {id} fué eliminado correctamente'
         }
 
 @app.route('/listar-clientes', methods=['GET'])
@@ -68,11 +68,53 @@ def listar_clientes():
     # fetchmany(limite) > devuelve los registros hasta el limite
     # fetchone() > Devuelve el primer registro del select
     data=cursor.fetchall()
-    print(data)
-    return {
-        'message': ' los clientes son'
-    }
+    resultado=[] #creamos variable
+    for registro in data:
+        informacion_cliente={
+            'id': registro[0],
+            'nombre': registro[1],
+            'correo': registro[2],
+            'status': registro[3],
+            'activo': registro[4],
+            'fechaCreacion': registro[5]
+        }
+        print(informacion_cliente)
+        resultado.append(informacion_cliente)
 
+    return {  
+        'message': 'Los clientes son',
+        'content': resultado
+     }      
+       
+# Crear un endpoint en el cual sirva para devolver un cliente por su ID
+# /cliente/1 > Rodrigo
+@app.route('/cliente/<int:id>')
+def devolver_cliente(id):
+    # primero me conecto a la BD
+    cursor=conexion.cursor()
+    #ejecuto la consulta para obtener el cliente
+    cursor.execute(f'Select * from clientes where id = {id}')
+    cliente_encontrado=cursor.fetchone()
+    # print(cliente_encontrado)
+    if cliente_encontrado is None:
+        return {
+            'message': 'El cliente no existe'
+        }
+    resultado = {
+        'id': cliente_encontrado[0],
+        'nombre': cliente_encontrado[1],
+        'correo': cliente_encontrado[2],
+        'status': cliente_encontrado[3],
+        'activo': cliente_encontrado[4],
+        'fechaCreacion': cliente_encontrado[5]
+        
+    }
+    return {
+        'message': 'Cliente encontrado',
+        'content': resultado
+    }
+  
+    
 # levanta el servidor de flask con algunos parametros opcionales.
 # debug > si su valor es true, entonces cada vez q modifiquemos el servidor y guardamos
 # este se reiniciará automaticamente
