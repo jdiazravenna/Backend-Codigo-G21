@@ -1,0 +1,17 @@
+flask db init > poder inicializar mi proyecto de flask con migraciones
+adicionalmente no se puede poner la opcion --app NOMBRE_ARCHIVO: NOMBRE_INSTANCIA > si el archivo 
+NO se llama app.py, entonces estamos obligados a poner esta opcion ya que la linea de comandos
+de flask no lo encontrará
+
+flask db migrate -m "NOMBRE_MIGRACION" > visualiuzara los cambios que hemos hecho con la bd y 
+creara la migracion correspondiente
+
+flask db upgrade > Ejecuta las migraciones q no estan en la bd
+flask db downgrade VERSION_A_IR> Elimina las modificaciones de las migraciones, hasta la version q coloquemos, si no colocamos
+la version, eliminará todos los cambios
+
+
+pip list > Lisara las librerias instaladas en la terminal
+pip freeze > Mostrara las librerias instaladas con su version en el formato LIBRERIA==version
+pip freeze > requeriments.txt >> Guardara el output de la terminal en el archivo requeriments.txt
+pip install -r requeriments.txt > Instalara las librerias definidas en el archivo requeriments.txt
