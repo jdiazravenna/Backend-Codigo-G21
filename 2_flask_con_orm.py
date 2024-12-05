@@ -23,7 +23,7 @@ class ProductoModel(conexion.Model):
     # nombre ... not null, > SQL
     nombre = Column(type_=types.Text, nullable=False)
     # precio ... not null > SQL
-    precio = Column(type_=types.Float, nullable=False)
+    precio = Column(type_=types.Float(precision=2), nullable=False)
     # serie ... not null unique > SQL
     serie = Column(type_=types.Text, nullable=False, unique=True)
     disponible=Column(type_=types.Boolean, nullable=True)
