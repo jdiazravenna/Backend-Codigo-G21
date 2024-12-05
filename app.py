@@ -2,6 +2,8 @@ from flask import Flask
 from instancias import conexion
 from os import environ
 from dotenv import load_dotenv
+from flask_migrate import Migrate
+from models import *
 
 # Revisara si hay algun archivo llamado .env y leerá las variables definidas en él, 
 # y los colocará como variables de entorno
@@ -10,13 +12,14 @@ load_dotenv()
 # De esta manera creamos nuestra instancia de Flask
 app = Flask(__name__)
 
-# app.config('SQLALCHEMY_DATABASE_URI') = ''
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URL')
 
 # Si vamos a tener, mas de una conexion, a diferentes bases de datos, entonces
 # debemos utilizar la variable SQLALCHEMY_BINDS
 
+
 app.config['SQLALCHEMY_BINDS'] = {
-    'postgres': environ.get('DATABASE_URL'),
+    'postgres': environ.get('DATABASE_URL2')
     # 'mysql': ''
 }
 
@@ -29,6 +32,8 @@ conexion.init_app(app)
 # class UsuarioPostgresModel(conexion.Model):
 #   __bind_key__ = 'postgres'
 #   id = Column(type_=types.integer)
+
+Migrate(app=app, db=conexion)
 
 if __name__ == '__main__':
     app.run(debug=True)
