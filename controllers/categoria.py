@@ -50,3 +50,85 @@ class CategoriaController(Resource):
                 'content': error.args # muestra la descripcion del error              
             }
             
+# Cuando queremos trabajar en otra ruta, o utlizar otra vez un metodo ya creado
+# cuando ponemos en un metodo http un parametro, significa que vamos a recibir ese parametro por la URL
+class ManejoCategoriaController(Resource):
+    def validarCategoria(self, id):
+        # filter > hace la comparacion entre los atributos de la clase
+        # filter_by > hace la comparacion entre parametros, mas no utiliza atributos
+        # el filter es mejor porque nos permite hacer busquedas mas avanzadas como  like, ilike, mayor que, menor que, etc
+
+        # Select * from categorias where id  '...' limit 1;
+        categoria_encontrada = conexion.session.query(CategoriaModel).filter(
+            CategoriaModel.id == int(id)).first()
+        # Opeador terneareo
+        # RESULTADO_CONDICION_VERDADERA if CONDICION else RESULTADO_CONDICION_FALSA
+        return {'message': 'Categoria no existe'} if categoria_encontrada is None else categoria_encontrada
+    
+    def get(self, id):
+       
+        categoria_encontrada = self.validarCategoria(id)
+
+        # Si el tipo de dato que retorna el metodo validarCategoria, es un dict, entonces vamos a retornar 
+        # ese contenido, caso contrario procedemos
+        # type > podemos validar el tipo de dato de la variable y usarlo para condicionales
+        if type(categoria_encontrada) == dict:
+            return categoria_encontrada
+
+        serializador = CategoriaSerializer()
+        resultado = serializador.dump(categoria_encontrada)
+        return {
+            'content': resultado
+        }
+    def put(self, id):
+         categoria_encontrada = self.validarCategoria(id)
+        # Si el tipo de dato que retorna el metodo validarCategoria, es un dict, entonces vamos a retornar 
+        # ese contenido, caso contrario procedemos
+        # type > podemos validar el tipo de dato de la variable y usarlo para condicionales
+         if type(categoria_encontrada) == dict:
+            return categoria_encontrada
+         data = request.get_json()
+         serializador = CategoriaSerializer()
+         try:
+             data_validada = serializador.load(data)
+             # hacemos las modificaciones de los valores de registro
+             categoria_encontrada.nombre = data_validada.get('nombre')
+             # Si me esta enviando la disponibilidad, la cambiaré, caso contrario, usaré la q tengo actualmente en la BD
+
+             # Con el is not none, indicamos que la condicion será verdadera, si el contenido de la variable no es none, o sea puede ser falso, 0
+             # u otro valor
+             categoria_encontrada.disponibilidad = data_validada.get('disponibilidad') if data_validada.get(
+                 'disponibilidad') is not None else categoria_encontrada.disponibilidad
+
+             # procedemos con las actualizaciones
+             conexion.session.commit()
+
+             # transformamos la informacion para ser retornada
+             resultado = serializador.dump(categoria_encontrada)
+
+             return {
+                'message': 'categoria actualizada correctamente',
+                'content': resultado
+                }
+         except ValidationError as error:
+             return {
+                'message': 'Error al actualizar la categoria',
+                'content': error.args
+             }
+    def delete(self, id):
+         categoria_encontrada = self.validarCategoria(id)
+        # Si el tipo de dato que retorna el metodo validarCategoria, es un dict, entonces vamos a retornar 
+        # ese contenido, caso contrario procedemos
+        # type > podemos validar el tipo de dato de la variable y usarlo para condicionales
+         if type(categoria_encontrada) == dict:
+            return categoria_encontrada
+         
+         # Eliminamos el registro de la BD
+         conexion.session.delete(categoria_encontrada)
+
+         # Para que sea de manera permanente
+         conexion.session.commit()
+
+         return {
+             'message': 'Categoria eliminada exitosamente'
+         }
