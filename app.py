@@ -2,6 +2,8 @@ from flask import Flask
 from instancias import conexion
 from os import environ
 from dotenv import load_dotenv
+from flask_migrate import Migrate
+from models import *
 
 load_dotenv() # carga las variables de entorno .env
 
@@ -14,6 +16,8 @@ app.config['SQLALCHEMY_BINDS'] = {
     'mysql': environ.get('DATABASE_URL_MYSQL')
 }
 conexion.init_app(app)
+
+Migrate(app, conexion) # llamamos con la libreria migrate
 
 if __name__ == '__main__':
     app.run(debug=True)
