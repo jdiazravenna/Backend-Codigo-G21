@@ -2,4 +2,6 @@
 entorno_*
 # Estamos ignorando todos los archivos cuya extension sea .pyc y no me importa el nombre
 # python cache
+
 *.pyc
+.env
