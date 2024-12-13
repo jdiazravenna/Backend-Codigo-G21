@@ -1,7 +1,2 @@
-from flask_restful import Resource, request
-from instancias import conexion
-from models import Categoria
-
-class CategoriaController(Resource):
-    def posrt(self):
-        pass
+from .categoria import CategoriaController
+from .usuario_controller import RegistroController
