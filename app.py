@@ -23,9 +23,10 @@ conexion.init_app(app)
 Migrate(app, conexion) # llamamos con la libreria migrate
 
 api = Api(app)
-
+# agregamos los recursos
 api.add_resource(CategoriaController, '/categorias')
 api.add_resource(RegistroController, '/registro')
+api.add_resource(LoginController, '/login')
 
 if __name__ == '__main__':
     app.run(debug=True)
