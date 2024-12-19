@@ -3,11 +3,13 @@ from instancias import conexion
 from models import Categoria
 from .serializers import CategoriaSerializer
 from marshmallow.exceptions import ValidationError
+from flask_jwt_extended import jwt_required
 
 class CategoriaController(Resource):
     # Atributo de la clase
     serializador = CategoriaSerializer()
-
+    
+    @jwt_required()
     def post(self):
         data = request.get_json()
         try:

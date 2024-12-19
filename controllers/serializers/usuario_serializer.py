@@ -16,6 +16,12 @@ class RegistroSerializer(SQLAlchemyAutoSchema):
     class Meta:
         model = Usuario
 
+# Este es un serializador manual, que no seguira ningun modelo de ejemplo
 class LoginSerializer(Schema):
     correo = fields.Email(required=True)
     password = fields.String(required=True)
+    
+class ActualizarUsuarioSerializer(Schema):
+    nombre = fields.String(required=False)
+    apellido = fields.String(required=False)
+    password = fields.String(required=False)
