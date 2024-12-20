@@ -1,3 +1,4 @@
 from .categoria import CategoriaSerializer
 from .usuario_serializer import RegistroSerializer
-from .usuario_serializer import LoginSerializer, RegistroSerializer, ActualizarUsuarioSerializer
+from .usuario_serializer import LoginSerializer, RegistroSerializer, ActualizarUsuarioSerializer, OlvidePasswordSerializer
+from .libro_serializer import LibroSerializer

@@ -25,3 +25,6 @@ class ActualizarUsuarioSerializer(Schema):
     nombre = fields.String(required=False)
     apellido = fields.String(required=False)
     password = fields.String(required=False)
+
+class OlvidePasswordSerializer(Schema):
+    correo = fields.Email(required=True)

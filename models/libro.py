@@ -16,4 +16,4 @@ class Libro(conexion.Model):
     categoriaId = Column(ForeignKey(column='categorias.id'),
                          type_=types.Integer, nullable=False, name='categoria_id')
 
-__tablename__ = 'libros'
+    __tablename__ = 'libros'

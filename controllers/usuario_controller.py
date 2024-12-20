@@ -1,10 +1,12 @@
 from flask_restful import Resource, request
 from models import Usuario
-from instancias import conexion
-from .serializers import RegistroSerializer, LoginSerializer, ActualizarUsuarioSerializer
+from instancias import conexion, encriptador
+from .serializers import (RegistroSerializer, LoginSerializer, 
+                          ActualizarUsuarioSerializer, OlvidePasswordSerializer)
 from marshmallow.exceptions import ValidationError
 from bcrypt import gensalt, hashpw, checkpw
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from mensajeria import enviar_email
 
 
 class RegistroController(Resource):
@@ -130,5 +132,41 @@ class UsuarioController(Resource):
         except ValidationError as error:
             return {
                 'message': 'Error al actualizar el usuario',
+                'content': error.args
+            }
+
+class OlvidePasswordController(Resource):
+    # Para crear el Olvide contraseña del usuario con correo, si existe o no en la BD
+    def post(self):
+        serializador = OlvidePasswordSerializer()
+        try:
+            data_serializada = serializador.load(request.get_json())
+
+            #select id from usuarios where correo = '...';
+            # Cuando usamos el with_entities, ya no se usa instancias, si no que lasc olumnas seleccionadas
+            # se guardaran como tuplas, es decir, la primera posicion ira el ID, si hay otra columna
+            # ira en la segunda posicion y asi sucesivamente
+            usuario_encontrado = conexion.session.query(Usuario).filter(
+                Usuario.correo == data_serializada.get('correo')).with_entities(Usuario.id, Usuario.correo).first()
+            if usuario_encontrado is None:
+                return {
+                    'message': 'usuario no se encuentra en la BD'
+                }
+            mensaje = {'usuario_id': usuario_encontrado[0],
+                       'message': 'Mensaje oculto'}
+            print(mensaje)
+            
+            # encrypt es una propiedad para encriptar el mensaje que vamos a enviar al correo
+            token = encriptador.encrypt(
+                bytes(str(mensaje), 'utf-8'))
+            print(token)
+            # Envia el mail con el Asunto y el Cuerpo del correo decodificado
+            enviar_email(usuario_encontrado[1], 'Restauracion de la contraseña', token.decode('utf-8'))
+            return {
+            'message': 'Correo enviado con las indicaciones'
+            }
+        except ValidationError as error:
+            return {
+                'message': 'error al ejecutar el olvide password',
                 'content': error.args
             }
