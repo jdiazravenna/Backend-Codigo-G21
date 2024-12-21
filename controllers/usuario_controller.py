@@ -159,9 +159,14 @@ class OlvidePasswordController(Resource):
             # encrypt es una propiedad para encriptar el mensaje que vamos a enviar al correo
             token = encriptador.encrypt(
                 bytes(str(mensaje), 'utf-8'))
-            print(token)
+            
+            # Creamos la url que va a llegar en el cuerpo del correo para restablecer
+            url = f'http://127.0.0.1:5500/frontend/reset-password/?token={
+                token.decode('utf-8')}'
+
             # Envia el mail con el Asunto y el Cuerpo del correo decodificado
-            enviar_email(usuario_encontrado[1], 'Restauracion de la contraseña', token.decode('utf-8'))
+            enviar_email(usuario_encontrado[1], 'Restauracion de la contraseña', url)
+
             return {
             'message': 'Correo enviado con las indicaciones'
             }
