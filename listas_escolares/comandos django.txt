@@ -1,0 +1,6 @@
+django-admin startproject Nombre_del_proyecto   > crea un nuevo proyecto
+py manage.py runserver                          > levanta el servidor de neustro proyecto de django
+py manage.py makemigrations NOMBRE_DEL_APP --name NOMBRE_MIGRACION    > crea una nueva migracion con los cambios realizaddos en los modelos
+py manage.py migrate                            > ejecuta todas las migraciones faltantes de la BD
+py manage.py showmigrations                     > mostrara un listado de migraciones e indicara cuales ya han sido ejecutadas
+py manage.py createsuperuser                    > crea un nuevo super usuario para ser utilizado en el panel administrativo

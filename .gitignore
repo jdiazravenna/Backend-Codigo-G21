@@ -1,5 +1,5 @@
 # Cuando colocamos el *, estaremos indicando, que no importa lo que viene o lo que precede
-entorno_*
+entorno*
 # Estamos ignorando todos los archivos cuya extension sea .pyc y no me importa el nombre
 # python cache
 *.pyc
