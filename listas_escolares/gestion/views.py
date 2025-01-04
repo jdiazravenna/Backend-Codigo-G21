@@ -1,3 +1,39 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import Producto
 
-# Create your views here.
+# Vamos a crear nuestra pagina inicial
+def mostrarProductosPlantilla(request):
+    # request > toda la información desde el navegador
+    print(request)
+    # data = [{
+    #     'id': 1,
+    #     'nombre': 'Lapiz Faber Castell',
+    #     'descripcion': 'Lapiz B2'
+    # },
+    # {
+    #     'id': 2,
+    #     'nombre': 'Resaltador color amarillo',
+    #     'descripcion': None
+    # }]
+    data = Producto.objects.all()
+    # Podemos retornar un HTML para cuestiones que la aplicacion sea un monolito
+    return render(request, 'mostrar_productos.html', {'data': data, 'mensaje': 'Bienvenido!'})
+
+def crearProductosFormulario(request):
+    if request.method == 'POST':
+        # Para recibir la informacion prveniente del formulario, en base a sus names, usamos el request.post
+        # print(request.POST.get('descripcionProducto'))
+        # print(request.POST)
+        nombreProducto = request.POST.get('nombreProducto')
+        descripcionProducto = request.POST.get('descripcionProducto')
+        # Inicializo mi nuevo registro del producto
+        nuevoProducto = Producto(nombre = nombreProducto, descripcion = descripcionProducto)
+        
+        # Guarda el registro en la BD
+        nuevoProducto.save()
+
+        # como en teoria ya se agrego mi producto en la BD, entonces mandare un 
+        # redireccionamiento a la vista de listar los productos
+        return redirect('mostrar_productos')
+    elif request.method == 'GET':
+         return render(request, 'formulario_producto.html')

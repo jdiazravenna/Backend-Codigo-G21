@@ -1,0 +1,35 @@
+{# Para reutilizar una plantilla, dentro de otra, utilizamos la etiqueta extends #}
+
+{% extends 'base.html' %}
+{# Ahora podemos utilizar sus bloques de esa plantilla base #}
+{% block titulo_pagina %} Mostrar Productos {% endblock %}
+{% block contenido %}
+{# Si queremos agregar una hoja de estilos/js en nuestro html, tenemos q usar la referencia #}
+{% load static %}
+<link rel="stylesheet" href="{% static 'estilos_mostrar_productos.css' %}"/>
+<div class="container">
+    <p>{{ mensaje }}</p>
+    <br/>
+    <p>Los Productos disponibles son:</p>
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Nombre</td>
+                <td>Descripcion</td>
+                <td>Acciones</td>
+            </tr>
+        </thead>
+    
+    <tbody>
+        {% for producto in data %}
+        <tr>
+            <td>{{producto.id}}</td>
+            <td>{{producto.nombre}}</td>
+            <td>{{producto.descripcion}}</td>
+           </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

@@ -16,8 +16,10 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # agregamos todas las rutas del archivo urls de la aplicacion, a nuestro proyecto
+    path('gestion/', include('gestion.urls'))
 ]
