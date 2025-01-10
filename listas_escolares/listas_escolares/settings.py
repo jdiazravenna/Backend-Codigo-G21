@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # AHORA AGREGAMOS LAS APLICACIONES CREADAS MANUALMENTE
-    "gestion"
+    "gestion",
+    # Agregamos la aplicaion de Rest Frameword para que carguen todos los archivos
+    "rest_framework"
 ]
 
 MIDDLEWARE = [
