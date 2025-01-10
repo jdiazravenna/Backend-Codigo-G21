@@ -5,3 +5,4 @@ entorno_*
 *.pyc
 .env
 __pycache__
+node_modules
