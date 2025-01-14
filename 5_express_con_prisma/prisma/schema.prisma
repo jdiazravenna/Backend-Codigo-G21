@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  // @id > sirve para indicar que la columna es llave primaria
+  // @default > indica cual sera su valor por defecto
+  // @db. > sirve para indicar el tipo de dato en especifico que utilizaremos para la bd
+  // Tipo_de_dato? > Indicara que la columna puede aceptar valores nulos
+  // @map > Sirve para indicar como se llamada esa propiedad en la bd, si no se le indica su valor, 
+  // sera igual q el nombre de la propiedad
+  // @updatedAt() > Indica que esa columna obtendra el valor de la hora y fecha actual del servidor, 
+  // cuando se realice un cambio en el registro
+  // @unique > no se podra repetir el valor de la celda de nuevo en otro registro
+  // @default(VALOR) > alor por defecto que usará si no se define al momento de crear
+  id Int @id @default(autoincrement())
+  email String @db.Text @unique
+  nombre String?
+  nickName String @map("nick_name")
+
+  // Columnas auditoria
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt() @map("updated_at")
+
+  notas Nota[] // [] > Sirven para indicar que un registro podra contener varios registros con otra tabla
+
+  // Para configuraciones de la tabla se usa @@
+  @@map("usuarios")
+}
+
+model Nota {
+  id              Int     @id @default(autoincrement())
+  titulo          String  
+  descripcion     String?
+  estado          EstadoNota  @default(POR_HACER)
+  deletedAt       DateTime?    @map("deleted_at")
+
+// Relaciones
+  usuarioId Int @map("usuario_at")
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+
+
+  @@map("notas")
+}
+
+enum EstadoNota {
+  POR_HACER
+  HACIENDO
+  REALIZADO
+}
