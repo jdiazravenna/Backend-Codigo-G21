@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id Int @id @default(autoincrement())
+  email  String @unique
+  password String?
+  tipo_usuario Tipo_usuario @default(USUARIO) @map("tipo_usuario")
+  nombre String?
+  apellido String?
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
+
+  @@map("usuarios")
+}
+enum Tipo_usuario {
+ ADMIN
+ USUARIO
+ MODERADOR
+}
+model Imagen {
+  id Int @id @default(autoincrement())
+  path String
+  ext String 
+  nombre String 
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
+
+  @@map("imagenes")
+
+  // Relaciones de uno a muchos
+  // Si queremos que la relacion sea de uno a uno, entonces no seria un arreglo, si no un solo registro?
+  // pero en este caso, como dos o mas equipos puede no tener una imagen, la relacion 1 - 1 ya no es viable
+  equipo Equipo[]
+}
+model Equipo{
+  id Int             @id @default(autoincrement())
+  nombre String       @unique
+  estadio String?
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
+
+  @@map("equipos")
+
+  //Relaciones
+  imagenId Int?  @map("imagen_id")
+  imagen Imagen? @relation(fields: [imagenId], references: [id])
+
+  // cuando tenemos dos o mas relaciones con la misma tabla, entonces nos vemos obligados a colocar el nombre de la relacion para q 
+  // prisma pueda entender a que relacion debe ir determinado registro
+  partidoEquipolocal    Partido[] @relation(name: "equipoLocal")
+  partidoEquipoVisitante Partido[] @relation(name: "equipoVisitante")
+}
+model Partido{
+  id Int @id @default(autoincrement()) 
+  fecha DateTime @db.Date
+  hora DateTime @db.Time() // si queremos usar un tipo de dato en especifico y no el generico, podemos hacerlo mediante la propiedad @db
+  // equipolocalid Int?         @map("equipo_local_id")
+  // equipovisitanteid Int      @map("equipo_visitante_id")
+  scoreequipolocal Int       @map("score_equipo_local")
+  scoreequipovisitante Int   @map("score_equipo_visitante")
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @updatedAt @map("updated_at")
+
+  equipoLocalId   Int   @map("equipo_local_id")
+  equipoLocal     Equipo @relation(fields: [equipoLocalId], references: [id], name: "equipoLocal")
+  equipoVisitanteId Int @map("equipo_visitante_id")
+  equipoVisitante   Equipo @relation(fields: [equipoVisitanteId], references: [id], name: "equipoVisitante")
+
+  @@map("partidos")
+}
+
