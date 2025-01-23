@@ -1,13 +1,14 @@
 import express from "express"
 import { usuarioEnrutador } from "./routes/usuario.routes.js"
 import { equipoEnrutador } from "./routes/equipo.routes.js"
+import { imagenEnrutador } from "./routes/imagen.routes.js"
 import { ZodError } from "zod"
 import { Prisma } from "@prisma/client"
 import cors from "cors"
 import AWS from "aws-sdk"
 
 // creamos la conexion a nuestro S3 bucket
-new AWS.S3({
+AWS.config.update({ // Modifica la configuracion de conexion de AWS en toda la aplicacion
     credentials:{
         accessKeyId: process.env.ACCESS_KEY,
         secretAccessKey: process.env.SECRET_ACCESS_KEY,
@@ -25,6 +26,7 @@ servidor.use(express.json())
 // Agregar las rutas de nuestros enrutadores
 servidor.use(usuarioEnrutador)
 servidor.use(equipoEnrutador)
+servidor.use(imagenEnrutador)
 
 servidor.use((error, req, res, next) => {
     // Aca manejaremos los errores q podamos tener en toda nuestra aplicacion
